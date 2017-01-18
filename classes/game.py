@@ -1,5 +1,4 @@
 import random
-# from .magic import Spell
 
 class Bcolors:
 	HEADER = '\033[95m'
@@ -13,7 +12,7 @@ class Bcolors:
 
 
 class Person():
-	def __init__(self, hp, mp, atk, df, magic):
+	def __init__(self, hp, mp, atk, df, magic, items, name = 'Cartman'):
 		self.maxhp = hp
 		self.hp = hp
 		self.maxmp = mp
@@ -22,7 +21,9 @@ class Person():
 		self.atkh = atk + 10
 		self.df = df
 		self.magic = magic
-		self.actions = ['attack', 'magic']
+		self.items = items
+		self.name = name
+		self.actions = ['Attack', 'Magic', 'Items']
 
 	def generate_damage(self):
 		return random.randrange(self.atkl, self.atkh)
@@ -50,19 +51,63 @@ class Person():
 
 	def choose_action(self):
 		i = 1
-		print('actions')
+		print('\n' + Bcolors.OKGREEN + Bcolors.BOLD + 'ACTIONS: ' + Bcolors.ENDC)
 		for item in self.actions:
-			print(str(i) + ':', item)
+			print('    ', str(i) + '.', item)
 			i += 1
 
 	def choose_magic(self):
 		i = 1
+		print('\n' + Bcolors.OKGREEN + Bcolors.BOLD + 'MAGIC: ' + Bcolors.ENDC)
 		for spell in self.magic:
-			print(str(i) + ':', spell.name, '(cost:', str(spell.cost) + ')')
+			print('    ', str(i) + '.', spell.name, '(cost:', str(spell.cost) + ')')
 			i += 1
 
 	def heal(self, dmg):
 		self.hp += dmg
 		if self.hp > self.maxhp:
 			self.hp = self.maxhp
+
+	def choose_item(self):
+		i = 1
+		print('\n' + Bcolors.OKGREEN + Bcolors.BOLD + 'ITEMS: ' + Bcolors.ENDC)
+		for item in self.items:
+			print('    ', str(i) + '. ' + item.name + ' : ' + item.description + ' (x' + str(item.quantity) + ')')
+			i += 1
+
+	def get_score_board(self):
+		hp_bar = ''
+		bar_ticks = (self.hp / self.maxhp) * 100 / 4
+		mp_bar = ''
+		mp_ticks = (self.mp / self.maxmp) * 100 / 10
+
+		while bar_ticks > 0:
+			hp_bar += '█'
+			bar_ticks -= 1
+		while len(hp_bar) < 25:
+			hp_bar += ' '
+		while mp_ticks > 0:
+			mp_bar += '█'
+			mp_ticks -= 1
+		while len(mp_bar) < 10:
+			mp_bar += ' '
+
+
+		print('\n\n')
+		print('NAME               HP                                   MP')
+		print('                   -------------------------            -----------')
+		print(Bcolors.BOLD + self.name + 		'       '+ str(self.hp) + '/' +str(self.maxhp) +'|' + Bcolors.OKGREEN + hp_bar + Bcolors.ENDC + Bcolors.BOLD +'|     '+ str(self.mp) + '/' + str(self.maxmp) +' |'+ Bcolors.OKBLUE + mp_bar + Bcolors.ENDC +'|')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
