@@ -58,23 +58,31 @@ def is_it_over():
 	if enemy1.get_hp() == 0 and enemy2.get_hp() == 0 and enemy3.get_hp() ==0:
 		print(Bcolors.OKGREEN + Bcolors.BOLD + '\n' + 'YOU WIN!' + Bcolors.ENDC)
 		running = False
-	elif player1.get_hp() == 0 and player2.get_hp() == 0 and player3.get_hp == 0:
+	elif player1.get_hp() == 0 and player2.get_hp() == 0 and player3.get_hp() == 0:
 		print(Bcolors.FAIL + Bcolors.BOLD +  '\n' + "YOU LOOSE!" + Bcolors.ENDC)
 		running = False
 
 print(Bcolors.FAIL + Bcolors.BOLD + "AN ENEMY ATTACKS!" + Bcolors.ENDC)
 
-while running:
-	print('=======================')
-	print('\n')
+def score_board():
 	for player in players:
-		for player in players:
-			player.get_score_board()
+		player.get_score_board()
 
-		print(Bcolors.FAIL + Bcolors.BOLD + '\nENEMY' + Bcolors.ENDC)
-		for enemy in enemies:
-			enemy.get_enemy_score_board()
-		print('\n\n=======================')
+	print(Bcolors.FAIL + Bcolors.BOLD + '\nENEMY' + Bcolors.ENDC)
+	for enemy in enemies:
+		enemy.get_enemy_score_board()
+
+while running:
+	print('\n=======================')
+	print('\n')
+	score_board()
+	for player in players:
+
+		if player.get_hp() == 0:
+			continue
+
+		print('=======================')
+		print('\n')	
 		print(player.get_name())
 		player.choose_action()
 		choice = input('\nChoose action:')
@@ -146,17 +154,21 @@ while running:
 				enemies[enemy_target].take_damage(item.prop)
 				print(Bcolors.OKBLUE + '\n' + player.name + ' used a ' + item.name + ' and dealt ' + str(item.prop) + ' points of damage!' + Bcolors.ENDC)
 
+		score_board()
 		is_it_over()
+		if running == False:
+			break
 
 	for enemy in enemies:
+		if enemy.get_hp() == 0:
+			continue
 		enemy_choice = random.randrange(0, 2)
 
 		if enemy_choice == 0:	
 			enemy_dmg = enemy.generate_damage()
 			target = random.randrange(0, 3)
 			players[target].take_damage(enemy_dmg)
-			print(Bcolors.FAIL + Bcolors.BOLD + enemy.name + ' attacked ' + players[target].name + ' for ' + str(enemy_dmg), 'points of damage. ' + players[target].name + ' Hp is ' + str(players[target].get_hp()) + Bcolors.ENDC)
-			print('=======================')
+			print('\n=======================\n' + Bcolors.FAIL + Bcolors.BOLD + enemy.name + ' attacked ' + players[target].name + ' for ' + str(enemy_dmg), 'points of damage. ' + players[target].name + ' Hp is ' + str(players[target].get_hp()) + Bcolors.ENDC)
 
 		elif enemy_choice == 1:
 			enemy_spell = random.randrange(0, 8)
@@ -171,13 +183,16 @@ while running:
 
 			if spell.thisType == 'whiteMagic':
 				enemy.heal(magic_dmg)
-				print(Bcolors.FAIL + '\n' + spell.name + ' heals for ' + str(magic_dmg) + 'HP. '+ enemy.name + ' HP is now ' + str(enemy.get_hp()) + Bcolors.ENDC)
+				print('\n=======================\n' + Bcolors.FAIL + Bcolors.BOLD + spell.name + ' heals for ' + str(magic_dmg) + 'HP. '+ enemy.name + ' HP is now ' + str(enemy.get_hp()) + Bcolors.ENDC)
 			if spell.thisType == 'BlackMagic':
 				spell_target = random.randrange(0, 3)
 				players[spell_target].take_damage(magic_dmg)
-				print(Bcolors.FAIL + '\n' + spell.name + ' deals ', str(magic_dmg), 'points of damage.' + players[spell_target].name + ' hp is ', str(players[spell_target].get_hp()) + Bcolors.ENDC)
+				print('\n=======================\n' +Bcolors.FAIL + Bcolors.BOLD  + spell.name + ' deals ', str(magic_dmg), 'points of damage.' + players[spell_target].name + ' hp is ', str(players[spell_target].get_hp()) + Bcolors.ENDC)
 
 		is_it_over()
+		if running == False:
+			break
+	
 
 
 
