@@ -23,7 +23,7 @@ class Person():
 		self.magic = magic
 		self.items = items
 		self.name = name
-		self.actions = ['Attack', 'Magic', 'Items']
+		self.actions = ['Melee', 'Magic', 'Items']
 
 	def generate_damage(self):
 		return random.randrange(self.atkl, self.atkh)
@@ -46,8 +46,21 @@ class Person():
 	def get_max_mp(self):
 		return self.maxmp
 
+	def get_name(self):
+		return self.name
+
 	def reduce_mp(self, cost):
 		self.mp -= cost
+
+	def reduce_item_quantity(self, item):
+		self.items[item].quantity -=1
+
+	def choose_target(self, enemies):
+		i = 1
+		print('\n' + Bcolors.FAIL + Bcolors.BOLD + 'TARGET: ' + Bcolors.ENDC)
+		for enemy in enemies:
+			print('    ', str(i), '.', enemy.name)
+			i += 1
 
 	def choose_action(self):
 		i = 1
@@ -93,10 +106,33 @@ class Person():
 			mp_bar += ' '
 
 
-		print('\n\n')
-		print('NAME               HP                                   MP')
-		print('                   -------------------------            -----------')
+		print('\n')
+		print('NAME                    HP                                      MP')
 		print(Bcolors.BOLD + self.name + 		'       '+ str(self.hp) + '/' +str(self.maxhp) +'|' + Bcolors.OKGREEN + hp_bar + Bcolors.ENDC + Bcolors.BOLD +'|     '+ str(self.mp) + '/' + str(self.maxmp) +' |'+ Bcolors.OKBLUE + mp_bar + Bcolors.ENDC +'|')
+
+	def get_enemy_score_board(self):
+		hp_bar = ''
+		bar_ticks = (self.hp / self.maxhp) * 100 / 4
+		mp_bar = ''
+		mp_ticks = (self.mp / self.maxmp) * 100 / 10
+
+		while bar_ticks > 0:
+			hp_bar += '█'
+			bar_ticks -= 1
+		while len(hp_bar) < 25:
+			hp_bar += ' '
+		while mp_ticks > 0:
+			mp_bar += '█'
+			mp_ticks -= 1
+		while len(mp_bar) < 10:
+			mp_bar += ' '
+
+
+		print('\n')
+		print('NAME                    HP                                      MP')
+		print(Bcolors.BOLD + self.name + 		'       '+ str(self.hp) + '/' +str(self.maxhp) +'|' + Bcolors.FAIL + hp_bar + Bcolors.ENDC + Bcolors.BOLD +'|     '+ str(self.mp) + '/' + str(self.maxmp) +' |'+ Bcolors.OKBLUE + mp_bar + Bcolors.ENDC +'|')
+
+
 
 
 
