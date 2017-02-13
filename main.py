@@ -25,14 +25,13 @@ PartyElixer = Item('PartyElixer', 'PartyElixer', 'restores all party members hp/
 #create some items for damage purpose
 grenade = Item('grenade', 'attack', 'deals 500 damage', 500, 3)
 
-name = str(input('\nWhat should we call you?\n'))
-
+promptStory = str(input("\nThis is a Game between good and evil. You control the army of Superhero's.\nYour Generals are MintBerry, Mysterion, and the HumanKite.\nYou face the evil army led by The_Coon, with his minions Professor Chaos and General DisArray.\nAre You Up For The Challenge?\n"))
 
 player_items = [potion, SuperPotion, Elixer, PartyElixer, grenade]
 player_spells = [fire, meteor, earthquake, thunderShock, bolt, void, cure, cura]
 
 #players team
-player1 = Person(800, 60, 60, 35, player_spells, player_items, name)
+player1 = Person(800, 60, 60, 35, player_spells, player_items, 'MintBerry')
 player2 = Person(800, 100, 60, 60, player_spells, player_items, 'Mysterion')
 player3 = Person(800, 60, 60, 35, player_spells, player_items, 'HumanKite')
 players = [player1, player2, player3]
