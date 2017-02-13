@@ -9,4 +9,6 @@ A command line based rpg game based on your most loved Cartoon Superheroes and S
 ```
 python main.py
 ```
-1. have fun!
+Then Have Fun
+
+![alt tag](https://github.com/pinkston4/BattleScripts/blob/master/img/battlescripts.png)
